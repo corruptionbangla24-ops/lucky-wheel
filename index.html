@@ -1,108 +1,116 @@
-                
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Wheel Game</title>
+    <title>Royal Lucky Wheel Game</title>
     <style>
-        /* ১. ব্যাকগ্রাউন্ড সেটআপ */
         body, html {
             margin: 0; padding: 0; height: 100%;
             display: flex; justify-content: center; align-items: center;
+            /* ১. আপনার পাঠানো ব্যাকগ্রাউন্ড */
             background: #000 url('background.png') no-repeat center center fixed;
             background-size: cover;
             overflow: hidden;
         }
 
-        .game-container {
+        .main-game-area {
             position: relative;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-end; /* বাটন নিচে রাখার জন্য */
+            padding-bottom: 50px;
         }
 
-        /* ২. চাকা কন্টেইনার (এখানেই চাকা ও পয়েন্টার থাকবে) */
-        .wheel-wrapper {
-            position: relative;
-            width: 450px;
-            height: 450px;
+        /* ২. রাজকীয় পয়েন্টার (চাকার একদম উপরে স্থির থাকবে) */
+        .royal-pointer {
+            position: absolute;
+            top: 5%; /* ছবির পজিশন অনুযায়ী অ্যাডজাস্ট করা */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            z-index: 10;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
         }
 
-        /* চাকার ছবি (আপনার বানানো চাকা) */
-        #main-wheel {
+        /* ৩. চাকা (আপনার তৈরি করা মার্ক করা চাকা) */
+        .wheel-box {
+            position: absolute;
+            top: 15%; /* পয়েন্টারের ঠিক নিচে */
+            width: 500px;
+            height: 500px;
+            z-index: 5;
+        }
+
+        #lucky-wheel {
             width: 100%;
             height: 100%;
             transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 30px rgba(0,0,0,0.7));
         }
 
-        /* চাকার ভেতর পয়েন্টার (আপনার লাল রত্নটি) */
-        .inner-pointer {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -100%); /* চাকার ঠিক মাঝখানে একটু উপরে */
-            width: 80px; 
-            z-index: 10;
-            pointer-events: none; /* যাতে পয়েন্টারে ক্লিক না পড়ে */
-        }
-
-        /* ৩. স্পিন বাটন (নিচে থাকবে) */
-        .spin-btn {
-            margin-top: 40px;
+        /* ৪. স্পিন বাটন (টেবিলের সামনের অংশে থাকবে) */
+        .spin-btn-container {
             cursor: pointer;
+            z-index: 20;
             transition: transform 0.2s;
         }
 
-        .spin-btn img {
-            width: 220px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+        .spin-btn-container img {
+            width: 250px; /* ছবির সাইজ অনুযায়ী */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
-        .spin-btn:active { transform: scale(0.9); }
+        .spin-btn-container:active {
+            transform: scale(0.9);
+        }
     </style>
 </head>
 <body>
 
-    <div class="game-container">
-        <div class="wheel-wrapper">
-            <!-- চাকার ভেতরে পয়েন্টার -->
-            <img src="pointer.png" class="inner-pointer" alt="Pointer">
-            
-            <!-- আপনার তৈরি করা মূল চাকা (যেখানে গুণ মার্ক করা আছে) -->
-            <img src="wheel.png" id="main-wheel" alt="Wheel">
+    <div class="main-game-area">
+        <!-- পয়েন্টার -->
+        <img src="pointer.png" class="royal-pointer" alt="Pointer">
+
+        <!-- ঘোরানো চাকা -->
+        <div class="wheel-box">
+            <img src="wheel.png" id="lucky-wheel" alt="Wheel">
         </div>
 
-        <!-- আপনার পাঠানো গোল্ডেন স্পিন বাটন -->
-        <div class="spin-btn" onclick="startSpin()">
+        <!-- স্পিন বাটন -->
+        <div class="spin-btn-container" onclick="spinWheel()">
             <img src="spin-button.png" alt="SPIN">
         </div>
     </div>
 
     <script>
         let currentRotation = 0;
-        let isSpinning = false;
+        let spinning = false;
 
-        function startSpin() {
-            if (isSpinning) return;
-            isSpinning = true;
+        function spinWheel() {
+            if (spinning) return; // চাকা ঘুরলে ক্লিক বন্ধ থাকবে
+            spinning = true;
 
-            const wheel = document.getElementById('main-wheel');
-            // অন্তত ১০ বার ঘুরবে এবং তারপর র‍্যান্ডম জায়গায় থামবে
-            const randomExtra = Math.floor(Math.random() * 360);
-            currentRotation += (3600 + randomExtra); 
+            const wheel = document.getElementById('lucky-wheel');
+            
+            // অন্তত ১০ বার পূর্ণ ঘূর্ণন + র‍্যান্ডম থামার জায়গা
+            const randomStop = Math.floor(Math.random() * 360);
+            currentRotation += (3600 + randomStop); 
 
             wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-            // ৫ সেকেন্ড পর স্পিন থামলে মেসেজ বা লজিক
+            // ৫ সেকেন্ড পর স্পিন শেষ হলে যা হবে
             setTimeout(() => {
-                isSpinning = false;
-                console.log("স্পিন সম্পন্ন হয়েছে!");
+                spinning = false;
+                alert("চাকা থেমেছে! আপনার পুরস্কার চেক করুন।");
             }, 5000);
         }
     </script>
 
 </body>
 </html>
-            
+                
+ 
