@@ -3,113 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel | Host on GitHub</title>
+    <title>Royal Lucky Wheel</title>
     <style>
-        /* পুরো স্ক্রিন সেটআপ */
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: #000 url('background.jpg') no-repeat center center fixed;
+            margin: 0; padding: 0; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            /* আপনার পাঠানো PNG ব্যাকগ্রাউন্ড */
+            background: #000 url('background.png') no-repeat center center fixed;
             background-size: cover;
+            overflow: hidden;
         }
 
-        /* গেম কন্টেইনার */
-        .game-wrapper {
+        .game-container {
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* পয়েন্টার স্টাইল */
-        .royal-pointer {
+        /* রাজকীয় পয়েন্টার (লাল রত্ন) */
+        .pointer {
             position: absolute;
             top: -60px;
             left: 50%;
             transform: translateX(-50%) rotate(180deg);
-            width: 120px;
-            z-index: 20;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+            width: 110px;
+            z-index: 100;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
         }
 
-        /* চাকা ঘোরানোর লজিক */
-        .wheel-box {
-            width: 420px;
-            height: 420px;
+        /* চাকা ক্যানভাস */
+        #wheelCanvas {
+            border: 12px solid #d4af37;
             border-radius: 50%;
-            border: 10px solid #d4af37;
             box-shadow: 0 0 50px rgba(0,0,0,0.9);
             transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
-            background-color: white; /* ব্যাকআপ কালার */
+            background: #fff;
         }
 
-        .wheel-box img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        /* স্পিন বাটন */
+        /* আপনার পাঠানো গোল্ডেন স্পিন বাটন */
         .spin-btn {
-            margin-top: 30px;
+            margin-top: 35px;
             cursor: pointer;
             transition: transform 0.2s;
+            z-index: 50;
         }
 
         .spin-btn img {
-            width: 220px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+            width: 210px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
         }
 
-        .spin-btn:active {
-            transform: scale(0.9);
-        }
+        .spin-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
-    <div class="game-wrapper">
-        <!-- পয়েন্টার ইমেজ -->
-        <img src="pointer.png" class="royal-pointer" alt="Pointer">
-
-        <!-- চাকা ইমেজ -->
-        <div id="wheel-frame" class="wheel-box">
-            <img src="wheel.png" alt="Lucky Wheel">
-        </div>
-
-        <!-- স্পিন বাটন ইমেজ -->
-        <div class="spin-btn" onclick="spinNow()">
+    <div class="game-container">
+        <img src="pointer.png" class="pointer" alt="Pointer">
+        <canvas id="wheelCanvas" width="450" height="450"></canvas>
+        <div class="spin-btn" onclick="spinWheel()">
             <img src="spin-button.png" alt="SPIN">
         </div>
     </div>
 
     <script>
-        let rotation = 0;
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        // ৪টি পিএনজি ছবির নাম
+        const images = ['p1.png', 'p2.png', 'p3.png', 'p4.png']; 
+        const loadedImages = [];
+        let currentRotation = 0;
         let isSpinning = false;
 
-        function spinNow() {
+        let loadedCount = 0;
+        images.forEach((src, index) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                loadedImages[index] = img;
+                loadedCount++;
+                if (loadedCount === images.length) drawWheel();
+            };
+        });
+
+        function drawWheel() {
+            const size = canvas.width;
+            const center = size / 2;
+            const arc = (Math.PI * 2) / 4; 
+
+            loadedImages.forEach((img, i) => {
+                const angle = i * arc;
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, center, angle, angle + arc);
+                
+                // রয়্যাল থিম কালারস
+                const colors = ['#4d0000', '#8a6d3b', '#260139', '#013220'];
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                ctx.strokeStyle = '#d4af37';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.translate(center, center);
+                ctx.rotate(angle + arc / 2);
+                ctx.drawImage(img, center / 2.5, -45, 90, 90); 
+                ctx.restore();
+            });
+        }
+
+        function spinWheel() {
             if (isSpinning) return;
             isSpinning = true;
-
-            const wheel = document.getElementById('wheel-frame');
-            // অন্তত ১০ বার পূর্ণ ঘূর্ণন + র‍্যান্ডম স্টপ (০-৩৬০ ডিগ্রি)
             const randomExtra = Math.floor(Math.random() * 360);
-            rotation += (3600 + randomExtra); 
-
-            wheel.style.transform = `rotate(${rotation}deg)`;
-
-            // ৫ সেকেন্ড পর স্পিন শেষ হলে মেসেজ
-            setTimeout(() => {
-                isSpinning = false;
-                console.log("পুরস্কার নির্ধারিত হয়েছে!");
-            }, 5000);
+            currentRotation += (3600 + randomExtra); 
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+            setTimeout(() => { isSpinning = false; }, 5000);
         }
     </script>
-
 </body>
 </html>
