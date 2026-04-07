@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Perfect Bottom Match</title>
+    <title>Royal Lucky Wheel - Complete Edition</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -24,7 +23,7 @@
             align-items: center;
         }
 
-        /* উপরে ডানদিকে ব্যালেন্স বোর্ড */
+        /* উপরে ডানে ব্যালেন্স */
         .top-balance {
             position: absolute;
             top: 40px;
@@ -37,13 +36,10 @@
             font-weight: bold;
             font-size: 18px;
             z-index: 200;
-            display: flex;
-            align-items: center;
-            gap: 5px;
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        /* চাকা ও পয়েন্টার ইউনিট */
+        /* চাকা ও পয়েন্টার */
         .wheel-unit {
             position: absolute;
             top: 5%; 
@@ -54,7 +50,6 @@
             max-width: 950px;
         }
 
-        /* পয়েন্টার এডজাস্টমেন্ট */
         .royal-pointer {
             width: 90px; 
             margin-bottom: -105px; 
@@ -63,10 +58,8 @@
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.9));
             transform: rotate(24deg); 
             transform-origin: bottom center;
-            position: relative;
         }
 
-        /* মেইন চাকা */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -75,27 +68,22 @@
             transform: scale(1.35); 
         }
 
-        .wheel-container img {
-            width: 100%; height: 100%; object-fit: contain;
-        }
+        .wheel-container img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* স্পিন বাটন - আপনার অনুরোধ অনুযায়ী আরও নিচে নামানো হয়েছে */
+        /* স্পিন বাটন - হলুদ বারের সাথে লাগানো */
         .spin-btn {
             position: absolute;
-            bottom: 9.5%; /* ৯.৫% ব্যবহার করা হয়েছে যাতে নিচের বারের সাথে লেগে থাকে */
+            bottom: 9.5%; 
             cursor: pointer;
             z-index: 130; 
             transition: transform 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .spin-btn img {
-            width: 180px; 
-        }
-
+        .spin-btn img { width: 180px; }
         .spin-btn:active { transform: scale(0.9); }
 
-        /* ব্যালেন্স কন্ট্রোল (হলুদ বর্ডার বক্স) - একদম নিচে */
+        /* ব্যালেন্স কন্ট্রোল */
         .bottom-bet-box {
             position: absolute;
             bottom: 3%;
@@ -109,40 +97,30 @@
             width: 220px;
             height: 60px;
             z-index: 120;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
         }
 
         .btn-math {
-            width: 48px;
-            height: 48px;
-            background: #ffd700;
-            border: none;
-            border-radius: 50%;
-            font-size: 32px;
-            font-weight: bold;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 48px; height: 48px; background: #ffd700; border: none;
+            border-radius: 50%; font-size: 32px; font-weight: bold;
+            color: #000; cursor: pointer; display: flex;
+            justify-content: center; align-items: center;
         }
 
-        .current-bet {
-            color: #fff;
-            font-size: 28px;
-            font-weight: bold;
-        }
+        .current-bet { color: #fff; font-size: 28px; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <!-- সাউন্ড ফাইলগুলো -->
+    <audio id="spinAudio" src="spin-sound.mp3" preload="auto"></audio>
+    <audio id="winAudio" src="win-sound.mp3" preload="auto"></audio>
+    <audio id="clickAudio" src="click-sound.mp3" preload="auto"></audio>
+
     <div class="game-wrapper">
-        <!-- উপরে ডানে ব্যালেন্স -->
         <div class="top-balance">
-            💰 <span id="balance">4880</span>
+            💰 <span id="balance">4830</span>
         </div>
 
-        <!-- চাকা ইউনিট -->
         <div class="wheel-unit">
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             <div id="wheel-box" class="wheel-container">
@@ -150,12 +128,10 @@
             </div>
         </div>
 
-        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
-            <img src="spin-button.png" alt="স্পিন">
+            <img src="spin-button.png" alt="SPIN">
         </div>
 
-        <!-- ব্যালেন্স কন্ট্রোল -->
         <div class="bottom-bet-box">
             <button class="btn-math" onclick="changeBet(-10)">-</button>
             <div class="current-bet" id="bet-val">10</div>
@@ -166,11 +142,20 @@
     <script>
         let rotation = 0;
         let isSpinning = false;
-        let balance = 4880;
+        let balance = 4830;
         let currentBet = 10;
+
+        const spinAudio = document.getElementById('spinAudio');
+        const winAudio = document.getElementById('winAudio');
+        const clickAudio = document.getElementById('clickAudio');
 
         function changeBet(val) {
             if (isSpinning) return;
+            
+            // ক্লিক সাউন্ড প্লে
+            clickAudio.currentTime = 0;
+            clickAudio.play().catch(e => console.log("সাউন্ড এরর"));
+
             currentBet += val;
             if (currentBet < 10) currentBet = 10; 
             document.getElementById('bet-val').innerText = currentBet;
@@ -187,6 +172,10 @@
             balance -= currentBet;
             document.getElementById('balance').innerText = balance;
 
+            // স্পিন সাউন্ড শুরু
+            spinAudio.currentTime = 0;
+            spinAudio.play().catch(e => console.log("সাউন্ড এরর"));
+
             const wheel = document.getElementById('wheel-box');
             const randomExtra = Math.floor(Math.random() * 360) + 1800; 
             rotation += randomExtra; 
@@ -195,9 +184,12 @@
 
             setTimeout(() => {
                 isSpinning = false;
+                spinAudio.pause(); // ঘোরার সাউন্ড বন্ধ
+                winAudio.play();   // জেতার সাউন্ড শুরু
             }, 5000);
         }
     </script>
 
 </body>
 </html>
+
