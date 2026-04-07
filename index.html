@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Layout Fixed</title>
+    <title>Royal Lucky Wheel - Exact Position</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -23,20 +23,22 @@
             align-items: center;
         }
 
-        /* উপরে ডানদিকে ব্যালেন্স বোর্ড (আপনার ছবির মতো) */
+        /* উপরে ডানদিকে ব্যালেন্স বোর্ড */
         .top-balance {
             position: absolute;
             top: 25px;
-            right: 20px;
+            right: 15px;
             background: rgba(0, 0, 0, 0.8);
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 8px 15px;
+            border-radius: 25px;
             border: 2px solid #ffd700;
             color: #ffd700;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
             z-index: 200;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         /* চাকা ও পয়েন্টার ইউনিট */
@@ -73,42 +75,36 @@
             width: 100%; height: 100%; object-fit: contain;
         }
 
-        /* নিচের কন্ট্রোল সেকশন (স্পিন বাটন + বেট বোর্ড) */
-        .controls-wrapper {
-            position: absolute;
-            bottom: 5%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px; /* স্পিন বাটন এবং প্লাস-মাইনাস বক্সের মধ্যবর্তী গ্যাপ */
-            z-index: 150;
-        }
-
-        /* স্পিন বাটন (কন্ট্রোল বক্সের ঠিক উপরে) */
+        /* স্পিন বাটন - আপনার মার্ক করা লাল বৃত্তের জায়গায় */
         .spin-btn {
+            position: absolute;
+            bottom: 22%; /* আপনার ছবির পানির কুণ্ডের পজিশন অনুযায়ী এডজাস্ট করা */
             cursor: pointer;
+            z-index: 110;
             transition: transform 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
 
         .spin-btn img {
-            width: 220px; /* আপনার ছবির সাথে মিলিয়ে কিছুটা বড় করা হয়েছে */
+            width: 190px; /* আপনার ছবির সাথে সামঞ্জস্যপূর্ণ সাইজ */
         }
 
         .spin-btn:active { transform: scale(0.9); }
 
-        /* ব্যালেন্স বাড়ানো কমানোর বক্স (ছবির লেআউট অনুযায়ী) */
-        .bet-control-box {
+        /* ব্যালেন্স বাড়ানো কমানোর বক্স - একদম নিচে */
+        .bottom-bet-box {
+            position: absolute;
+            bottom: 5%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             border: 2px solid #ffd700;
             border-radius: 40px;
             padding: 5px 15px;
-            width: 220px; /* স্পিন বাটনের সাথে সামঞ্জস্যপূর্ণ */
+            width: 210px;
             height: 55px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 120;
         }
 
         .btn-math {
@@ -117,23 +113,16 @@
             background: #ffd700;
             border: none;
             border-radius: 50%;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: bold;
             color: #000;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.3);
         }
-
-        .btn-math:active { transform: scale(0.95); }
 
         .current-bet {
             color: #fff;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
-            text-align: center;
         }
     </style>
 </head>
@@ -142,7 +131,7 @@
     <div class="game-wrapper">
         <!-- উপরে ডানে ব্যালেন্স -->
         <div class="top-balance">
-            💰 <span id="balance">4900</span>
+            💰 <span id="balance">4890</span>
         </div>
 
         <!-- চাকা ইউনিট -->
@@ -153,26 +142,23 @@
             </div>
         </div>
 
-        <!-- নিচের কন্ট্রোল সেটআপ -->
-        <div class="controls-wrapper">
-            <!-- স্পিন বাটন - এটি এখন প্লাস/মাইনাস বক্সের ঠিক ওপরে -->
-            <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
-                <img src="spin-button.png" alt="স্পিন">
-            </div>
+        <!-- স্পিন বাটন (আপনার মার্ক করা জায়গায়) -->
+        <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
+            <img src="spin-button.png" alt="স্পিন">
+        </div>
 
-            <!-- ব্যালেন্স বাড়ানোর/কমানোর প্যানেল -->
-            <div class="bet-control-box">
-                <button class="btn-math" onclick="changeBet(-10)">-</button>
-                <div class="current-bet" id="bet-val">10</div>
-                <button class="btn-math" onclick="changeBet(10)">+</button>
-            </div>
+        <!-- ব্যালেন্স কন্ট্রোল (একদম নিচে) -->
+        <div class="bottom-bet-box">
+            <button class="btn-math" onclick="changeBet(-10)">-</button>
+            <div class="current-bet" id="bet-val">10</div>
+            <button class="btn-math" onclick="changeBet(10)">+</button>
         </div>
     </div>
 
     <script>
         let rotation = 0;
         let isSpinning = false;
-        let balance = 4900;
+        let balance = 4890;
         let currentBet = 10;
 
         function changeBet(val) {
@@ -184,9 +170,8 @@
 
         function startSpin() {
             if (isSpinning) return;
-
             if (balance < currentBet) {
-                alert("ব্যালেন্স পর্যাপ্ত নয়!");
+                alert("ব্যালেন্স নেই!");
                 return;
             }
 
@@ -208,6 +193,5 @@
 
 </body>
 </html>
+     
 
-        
-            
