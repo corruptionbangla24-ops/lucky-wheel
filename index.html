@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel - Fixed</title>
+    <title>Royal Lucky Wheel - Perfectly Round</title>
     <style>
-        /* ১. ব্যাকগ্রাউন্ড সেটআপ */
         body, html {
             margin: 0; padding: 0; height: 100%;
             display: flex; justify-content: center; align-items: center;
@@ -23,47 +22,44 @@
             align-items: center;
         }
 
-        /* ২. চাকা - একদম গোল রাখার জন্য বর্গাকার সাইজ (Width = Height) */
+        /* ১. পয়েন্টার - চাকার ঠিক মাথায় সঠিক পজিশন */
+        .royal-pointer {
+            position: absolute;
+            top: 2%; /* আপনার ব্যাকগ্রাউন্ড অনুযায়ী সামান্য অ্যাডজাস্ট করুন */
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            width: 80px;
+            z-index: 100;
+        }
+
+        /* ২. চাকা - একদম গোল রাখার জন্য স্কয়ার কন্টেইনার */
         .wheel-container {
             position: absolute;
-            top: 25%; /* আপনার ছবির মন্দিরের সামনে চাকাটি রাখার জন্য */
-            width: 320px; /* মোবাইলের জন্য পারফেক্ট গোল সাইজ */
-            height: 320px; /* এটি অবশ্যই Width এর সমান হতে হবে যাতে গোল থাকে */
-            z-index: 10;
+            top: 15%; /* পয়েন্টারের ঠিক নিচে */
+            width: 90vw; /* স্ক্রিনের চওড়া অনুযায়ী */
+            max-width: 400px; /* পিসিতে যেন অনেক বড় না হয়ে যায় */
+            aspect-ratio: 1 / 1; /* এটিই চাকাটিকে সবসময় গোল রাখবে (ডিম হতে দেবে না) */
+            z-index: 50;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .wheel-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ছবি চ্যাপ্টা হওয়া রোধ করবে */
-            border-radius: 50%;
+            object-fit: contain; /* ছবি যাতে চ্যাপ্টা না হয় তা নিশ্চিত করবে */
         }
 
-        /* ৩. পয়েন্টার - চাকার ঠিক মাথায় পারফেক্ট পজিশন */
-        .royal-pointer {
-            position: absolute;
-            top: 22%; /* চাকার সামান্য ওপরে */
-            left: 50%;
-            transform: translateX(-50%) rotate(180deg);
-            width: 60px;
-            z-index: 30;
-        }
-
-        /* ৪. স্পিন বাটন - নিচের টেবিল বা পাথরের ওপর */
+        /* ৩. স্পিন বাটন - নিচের টেবিল বা পাথরের ওপর */
         .spin-btn {
             position: absolute;
-            bottom: 8%; /* আপনার ছবির নিচের 'স্পিন' বাটনের জায়গার সাথে মিল রেখে */
+            bottom: 5%; /* একদম নিচে */
             cursor: pointer;
-            z-index: 50;
+            z-index: 110;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 130px;
+            width: 150px;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
@@ -73,17 +69,17 @@
 <body>
 
     <div class="game-wrapper">
-        <!-- আপনার আলাদা করা পয়েন্টার -->
-        <img src="pointer.png" class="royal-pointer" alt="Pointer">
+        <!-- পয়েন্টার -->
+        <img src="pointer.png" class="royal-pointer">
 
-        <!-- আপনার আলাদা করা চাকা -->
+        <!-- গোল চাকা (এখন আর ডিম হবে না) -->
         <div id="wheel-box" class="wheel-container">
-            <img src="wheel.png" alt="Wheel">
+            <img src="wheel.png">
         </div>
 
-        <!-- আপনার আলাদা করা স্পিন বাটন -->
+        <!-- স্পিন বাটন -->
         <div class="spin-btn" onclick="startSpin()">
-            <img src="spin-button.png" alt="SPIN">
+            <img src="spin-button.png">
         </div>
     </div>
 
@@ -94,13 +90,15 @@
         function startSpin() {
             if (spinning) return;
             spinning = true;
+
             const wheel = document.getElementById('wheel-box');
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
+
             wheel.style.transform = `rotate(${rotation}deg)`;
-            
-            setTimeout(() => { 
-                spinning = false; 
+
+            setTimeout(() => {
+                spinning = false;
                 alert("চাকা থেমেছে! অভিনন্দন!");
             }, 5000);
         }
