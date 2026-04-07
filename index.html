@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel - Perfectly Round</title>
+    <title>Royal Lucky Wheel - Pro Adjusted</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%;
@@ -22,23 +22,23 @@
             align-items: center;
         }
 
-        /* ১. পয়েন্টার - চাকার ঠিক মাথায় সঠিক পজিশন */
+        /* ১. পয়েন্টার - ব্যাকগ্রাউন্ডের পয়েন্টারের একদম ওপরে */
         .royal-pointer {
             position: absolute;
-            top: 2%; /* আপনার ব্যাকগ্রাউন্ড অনুযায়ী সামান্য অ্যাডজাস্ট করুন */
+            top: 31.5%; /* ব্যাকগ্রাউন্ড অনুযায়ী সুনির্দিষ্ট পজিশন */
             left: 50%;
             transform: translateX(-50%) rotate(180deg);
-            width: 80px;
+            width: 85px;
             z-index: 100;
         }
 
-        /* ২. চাকা - একদম গোল রাখার জন্য স্কয়ার কন্টেইনার */
+        /* ২. চাকা - বড় করা হয়েছে এবং একদম গোল থাকবে */
         .wheel-container {
             position: absolute;
-            top: 15%; /* পয়েন্টারের ঠিক নিচে */
-            width: 90vw; /* স্ক্রিনের চওড়া অনুযায়ী */
-            max-width: 400px; /* পিসিতে যেন অনেক বড় না হয়ে যায় */
-            aspect-ratio: 1 / 1; /* এটিই চাকাটিকে সবসময় গোল রাখবে (ডিম হতে দেবে না) */
+            top: 34.5%; /* ব্যাকগ্রাউন্ডের চাকার ওপর বসানোর জন্য */
+            width: 82vw; /* চাকাটি বড় করা হয়েছে */
+            max-width: 440px; 
+            aspect-ratio: 1 / 1; /* ডিম হওয়া রোধ করবে */
             z-index: 50;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
         }
@@ -46,20 +46,23 @@
         .wheel-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ছবি যাতে চ্যাপ্টা না হয় তা নিশ্চিত করবে */
+            object-fit: contain;
+            border-radius: 50%;
+            mix-blend-mode: multiply; /* পেছনের সাদা ভাব কমানোর ট্রিক */
         }
 
-        /* ৩. স্পিন বাটন - নিচের টেবিল বা পাথরের ওপর */
+        /* ৩. স্পিন বাটন - ব্যাকগ্রাউন্ডের বাটনটিকে পুরোপুরি ঢেকে দেবে */
         .spin-btn {
             position: absolute;
-            bottom: 5%; /* একদম নিচে */
+            bottom: 12.5%; /* ব্যাকগ্রাউন্ডের বাটনের পজিশন অনুযায়ী */
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 150px;
+            width: 195px; /* বাটনটি বড় করে ব্যাকগ্রাউন্ডেরটি ঢেকে দেওয়া হয়েছে */
+            mix-blend-mode: multiply;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
@@ -69,15 +72,12 @@
 <body>
 
     <div class="game-wrapper">
-        <!-- পয়েন্টার -->
         <img src="pointer.png" class="royal-pointer">
 
-        <!-- গোল চাকা (এখন আর ডিম হবে না) -->
         <div id="wheel-box" class="wheel-container">
             <img src="wheel.png">
         </div>
 
-        <!-- স্পিন বাটন -->
         <div class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png">
         </div>
@@ -90,17 +90,11 @@
         function startSpin() {
             if (spinning) return;
             spinning = true;
-
             const wheel = document.getElementById('wheel-box');
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
-
             wheel.style.transform = `rotate(${rotation}deg)`;
-
-            setTimeout(() => {
-                spinning = false;
-                alert("চাকা থেমেছে! অভিনন্দন!");
-            }, 5000);
+            setTimeout(() => { spinning = false; }, 5000);
         }
     </script>
 
