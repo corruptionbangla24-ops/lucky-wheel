@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Extra Large</title>
+    <title>Royal Lucky Wheel - Pointer Adjusted</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -22,23 +22,25 @@
             align-items: center;
         }
 
-        /* চাকা ও পয়েন্টার ইউনিট - ১২৫% উইডথ দেওয়া হয়েছে যাতে একদম ফুল স্ক্রিন দেখায় */
+        /* চাকা ও পয়েন্টার ইউনিট */
         .wheel-unit {
             position: absolute;
-            top: 2%; /* চাঁদের ঠিক নিচে রাখার জন্য আরও উপরে তোলা হলো */
+            top: 5%; /* চাঁদের পজিশন অনুযায়ী চাকাটিকে ওপরের দিকে রাখা হয়েছে */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 125vw; /* স্ক্রিনের চেয়েও বড় করা হয়েছে যাতে কোনো গ্যাপ না থাকে */
-            max-width: 800px;
+            width: 120vw; /* চাকা বড় দেখানোর জন্য */
+            max-width: 700px;
         }
 
-        /* পয়েন্টার এডজাস্টমেন্ট */
+        /* পয়েন্টার - চাঁদের নিচে এবং চাকার সাথে লাগানো */
         .royal-pointer {
-            width: 100px; /* চাকা বড় হওয়ায় পয়েন্টারও বড় করা হয়েছে */
-            margin-bottom: -35px; /* চাকার ভেতরে ঢোকানোর জন্য */
+            width: 90px; /* পয়েন্টারের সাইজ */
+            margin-bottom: -45px; /* এটি পয়েন্টারকে টেনে চাকার একদম গায়ের ওপর নিয়ে আসবে */
             z-index: 100;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
+            /* চাঁদের সাথে পজিশন মিলাতে চাইলে নিচের margin-top ব্যবহার করতে পারেন */
+            margin-top: 10px; 
         }
 
         /* চাকা কন্টেইনার */
@@ -47,7 +49,7 @@
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
-            transform: scale(1.2); /* অতিরিক্ত জুম করার জন্য */
+            transform: scale(1.15); /* চাকা জুম করার জন্য */
         }
 
         .wheel-container img {
@@ -56,10 +58,10 @@
             object-fit: contain;
         }
 
-        /* স্পিন বাটন - পজিশন একদম নিচে */
+        /* স্পিন বাটন */
         .spin-btn {
             position: absolute;
-            bottom: 3%; 
+            bottom: 5%; 
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
@@ -67,7 +69,7 @@
         }
 
         .spin-btn img {
-            width: 190px; 
+            width: 180px; 
         }
 
         .spin-btn:active { transform: scale(0.9); }
@@ -77,16 +79,14 @@
 
     <div class="game-wrapper">
         <div class="wheel-unit">
-            <!-- পয়েন্টার -->
+            <!-- পয়েন্টার - যা চাঁদের নিচ থেকে চাকার গায়ে লেগে থাকবে -->
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             
-            <!-- মেইন চাকা -->
             <div id="wheel-box" class="wheel-container">
                 <img src="wheel.png" alt="Wheel">
             </div>
         </div>
 
-        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
@@ -104,8 +104,8 @@
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
             
-            // scale(1.2) বজায় রেখে ঘুরবে
-            wheel.style.transform = `scale(1.2) rotate(${rotation}deg)`;
+            // জুম স্কেল ঠিক রেখে ঘুরবে
+            wheel.style.transform = `scale(1.15) rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
@@ -115,4 +115,3 @@
 
 </body>
 </html>
-
