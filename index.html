@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Pointer Fixed</title>
+    <title>Royal Lucky Wheel - Fixed Pointer Touch</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -25,34 +25,34 @@
         /* চাকা ও পয়েন্টার ইউনিট */
         .wheel-unit {
             position: absolute;
-            top: 5%; /* চাঁদের পজিশন অনুযায়ী */
+            top: 5%; /* স্ক্রিনশট অনুযায়ী চাঁদের নিচে পজিশন */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 135vw; /* অতিকায় বড় চাকা */
+            width: 135vw; /* চাকা অতিকায় বড় থাকবে */
             max-width: 900px;
         }
 
         /* পয়েন্টার - এটি এখন চাকার গায়ের সাথে একদম লেগে থাকবে */
         .royal-pointer {
-            width: 95px; 
-            /* পয়েন্টারকে নিচে নামিয়ে চাকার একদম ভেতরে লাগানোর জন্য ভ্যালু বাড়ানো হয়েছে */
-            margin-bottom: -95px; 
-            margin-left: 75px;    /* চাঁদের পাশ দিয়ে হেলে থাকার জন্য */
+            width: 90px; 
+            /* গ্যাপ কমানোর জন্য margin-bottom বাড়িয়ে -১৩০ পিক্সেল করা হলো */
+            margin-bottom: -130px; 
+            margin-left: 80px;    /* চাঁদের পাশ দিয়ে হেলে থাকার জন্য */
             z-index: 100;
-            filter: drop-shadow(0 5px 20px rgba(0,0,0,0.9));
-            transform: rotate(22deg); 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+            transform: rotate(25deg); /* একটু বেশি বাঁকানো হয়েছে যাতে গায়ের সাথে লাগে */
             transform-origin: bottom center;
             position: relative;
         }
 
-        /* মেইন চাকা */
+        /* মেইন চাকা - আপনার স্ক্রিনশটের মতো বড় সাইজ */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
-            transform: scale(1.3); 
+            transform: scale(1.35); /* চাকাটিকে আরেকটু জুম করা হয়েছে */
         }
 
         .wheel-container img {
@@ -64,7 +64,7 @@
         /* স্পিন বাটন */
         .spin-btn {
             position: absolute;
-            bottom: 4%; 
+            bottom: 3%; 
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
@@ -72,7 +72,7 @@
         }
 
         .spin-btn img {
-            width: 200px; 
+            width: 210px; /* বাটনটি সুন্দর বড় দেখাবে */
         }
 
         .spin-btn:active { transform: scale(0.9); }
@@ -82,7 +82,7 @@
 
     <div class="game-wrapper">
         <div class="wheel-unit">
-            <!-- পয়েন্টার যা চাকার গায়ে লেগে আছে -->
+            <!-- পয়েন্টার যা এখন চাকার বর্ডারের সাথে টাচ করবে -->
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             
             <div id="wheel-box" class="wheel-container">
@@ -108,7 +108,8 @@
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
             
-            wheel.style.transform = `scale(1.3) rotate(${rotation}deg)`;
+            // scale(1.35) বজায় রেখে চাকা ঘুরবে
+            wheel.style.transform = `scale(1.35) rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
