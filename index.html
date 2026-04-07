@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Connected UI</title>
+    <title>Royal Lucky Wheel - Perfect Bottom Match</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -53,7 +54,7 @@
             max-width: 950px;
         }
 
-        /* আপনার সেই প্রিয় বাঁকানো পয়েন্টার */
+        /* পয়েন্টার এডজাস্টমেন্ট */
         .royal-pointer {
             width: 90px; 
             margin-bottom: -105px; 
@@ -78,12 +79,12 @@
             width: 100%; height: 100%; object-fit: contain;
         }
 
-        /* স্পিন বাটন - এটি এখন নিচের হলুদ বক্সের সাথে লাগানো থাকবে */
+        /* স্পিন বাটন - আপনার অনুরোধ অনুযায়ী আরও নিচে নামানো হয়েছে */
         .spin-btn {
             position: absolute;
-            bottom: 10.5%; /* এই ভ্যালুটি বাটনকে একদম নিচের হলুদ বারের ওপর বসিয়ে দেবে */
+            bottom: 9.5%; /* ৯.৫% ব্যবহার করা হয়েছে যাতে নিচের বারের সাথে লেগে থাকে */
             cursor: pointer;
-            z-index: 130; /* হলুদ বক্সের ওপরে দেখানোর জন্য */
+            z-index: 130; 
             transition: transform 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
@@ -108,7 +109,7 @@
             width: 220px;
             height: 60px;
             z-index: 120;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.5); /* ওপরে হালকা ছায়া */
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
         }
 
         .btn-math {
@@ -149,12 +150,12 @@
             </div>
         </div>
 
-        <!-- স্পিন বাটন - যা নিচের হলুদ লাইনের সাথে লাগানো -->
+        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="স্পিন">
         </div>
 
-        <!-- ব্যালেন্স কন্ট্রোল - একদম নিচে -->
+        <!-- ব্যালেন্স কন্ট্রোল -->
         <div class="bottom-bet-box">
             <button class="btn-math" onclick="changeBet(-10)">-</button>
             <div class="current-bet" id="bet-val">10</div>
