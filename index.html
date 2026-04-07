@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Maximum Size</title>
+    <title>Royal Lucky Wheel - Extra Large</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -22,21 +22,21 @@
             align-items: center;
         }
 
-        /* চাকা ও পয়েন্টার ইউনিট - সর্বোচ্চ বড় করার জন্য */
+        /* চাকা ও পয়েন্টার ইউনিট - ১২৫% উইডথ দেওয়া হয়েছে যাতে একদম ফুল স্ক্রিন দেখায় */
         .wheel-unit {
             position: absolute;
-            top: 5%; /* স্ক্রিনশট অনুযায়ী আরও উপরে তোলা হয়েছে */
+            top: 2%; /* চাঁদের ঠিক নিচে রাখার জন্য আরও উপরে তোলা হলো */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 115vw; /* মোবাইল স্ক্রিনের চেয়েও ১৫% বড় রাখা হয়েছে যাতে একদম ধার ঘেঁষে থাকে */
-            max-width: 750px; /* পিসি স্ক্রিনের জন্য লিমিট */
+            width: 125vw; /* স্ক্রিনের চেয়েও বড় করা হয়েছে যাতে কোনো গ্যাপ না থাকে */
+            max-width: 800px;
         }
 
         /* পয়েন্টার এডজাস্টমেন্ট */
         .royal-pointer {
-            width: 85px; /* চাকা বড় হওয়ায় পয়েন্টারও বড় করা হয়েছে */
-            margin-bottom: -25px; 
+            width: 100px; /* চাকা বড় হওয়ায় পয়েন্টারও বড় করা হয়েছে */
+            margin-bottom: -35px; /* চাকার ভেতরে ঢোকানোর জন্য */
             z-index: 100;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
         }
@@ -47,8 +47,7 @@
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
-            /* চাকাটি যেন প্রপারলি বড় দেখায় */
-            transform: scale(1.1); 
+            transform: scale(1.2); /* অতিরিক্ত জুম করার জন্য */
         }
 
         .wheel-container img {
@@ -57,10 +56,10 @@
             object-fit: contain;
         }
 
-        /* স্পিন বাটন - একদম নিচের দিকে */
+        /* স্পিন বাটন - পজিশন একদম নিচে */
         .spin-btn {
             position: absolute;
-            bottom: 5%; 
+            bottom: 3%; 
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
@@ -68,7 +67,7 @@
         }
 
         .spin-btn img {
-            width: 180px; /* বাটনটি বড় এবং স্পষ্ট */
+            width: 190px; 
         }
 
         .spin-btn:active { transform: scale(0.9); }
@@ -78,12 +77,16 @@
 
     <div class="game-wrapper">
         <div class="wheel-unit">
+            <!-- পয়েন্টার -->
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
+            
+            <!-- মেইন চাকা -->
             <div id="wheel-box" class="wheel-container">
                 <img src="wheel.png" alt="Wheel">
             </div>
         </div>
 
+        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
@@ -97,9 +100,12 @@
             if (isSpinning) return;
             isSpinning = true;
             const wheel = document.getElementById('wheel-box');
+            
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
-            wheel.style.transform = `scale(1.1) rotate(${rotation}deg)`; /* Scale বজায় রেখে ঘুরবে */
+            
+            // scale(1.2) বজায় রেখে ঘুরবে
+            wheel.style.transform = `scale(1.2) rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
