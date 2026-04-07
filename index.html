@@ -1,9 +1,9 @@
-   <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Exact Position</title>
+    <title>Royal Lucky Wheel - Exact Match</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -23,62 +23,65 @@
             align-items: center;
         }
 
-        /* উপরে ডানদিকে ব্যালেন্স বোর্ড */
+        /* উপরে ডানদিকে ব্যালেন্স বোর্ড - আপনার ছবির মতো */
         .top-balance {
             position: absolute;
-            top: 25px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 8px 15px;
+            top: 45px; /* স্ট্যাটাস বার এর নিচ থেকে শুরু */
+            right: 25px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 5px 15px;
             border-radius: 25px;
             border: 2px solid #ffd700;
             color: #ffd700;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             z-index: 200;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         /* চাকা ও পয়েন্টার ইউনিট */
         .wheel-unit {
             position: absolute;
-            top: 5%; 
+            top: 8%; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 135vw; 
-            max-width: 900px;
+            width: 140vw; 
+            max-width: 950px;
         }
 
+        /* পয়েন্টার - আপনার পছন্দের সেই বাঁকানো স্টাইল */
         .royal-pointer {
-            width: 95px; 
-            margin-bottom: -95px; 
-            margin-left: 75px;    
+            width: 90px; 
+            margin-bottom: -110px; 
+            margin-left: 85px;    
             z-index: 100;
             filter: drop-shadow(0 5px 20px rgba(0,0,0,0.9));
-            transform: rotate(22deg); 
+            transform: rotate(24deg); 
             transform-origin: bottom center;
             position: relative;
         }
 
+        /* মেইন চাকা */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
-            transform: scale(1.3); 
+            transform: scale(1.35); 
         }
 
         .wheel-container img {
             width: 100%; height: 100%; object-fit: contain;
         }
 
-        /* স্পিন বাটন - আপনার মার্ক করা লাল বৃত্তের জায়গায় */
+        /* স্পিন বাটন - আপনার লাল মার্ক করা পানির কুণ্ডের ঠিক ওপরে */
         .spin-btn {
             position: absolute;
-            bottom: 22%; /* আপনার ছবির পানির কুণ্ডের পজিশন অনুযায়ী এডজাস্ট করা */
+            bottom: 14%; /* আপনার মার্ক করা জায়গা অনুযায়ী পজিশন নিচে নামানো হয়েছে */
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
@@ -86,42 +89,46 @@
         }
 
         .spin-btn img {
-            width: 190px; /* আপনার ছবির সাথে সামঞ্জস্যপূর্ণ সাইজ */
+            width: 175px; /* ছবির সাথে সামঞ্জস্যপূর্ণ মাঝারি সাইজ */
         }
 
         .spin-btn:active { transform: scale(0.9); }
 
-        /* ব্যালেন্স বাড়ানো কমানোর বক্স - একদম নিচে */
+        /* ব্যালেন্স কন্ট্রোল - একদম নিচে স্ক্রিনের ধারের কাছে */
         .bottom-bet-box {
             position: absolute;
-            bottom: 5%;
+            bottom: 3%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border: 2px solid #ffd700;
             border-radius: 40px;
             padding: 5px 15px;
-            width: 210px;
-            height: 55px;
+            width: 220px;
+            height: 60px;
             z-index: 120;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
         }
 
         .btn-math {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             background: #ffd700;
             border: none;
             border-radius: 50%;
-            font-size: 30px;
+            font-size: 32px;
             font-weight: bold;
             color: #000;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .current-bet {
             color: #fff;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
         }
     </style>
@@ -129,9 +136,9 @@
 <body>
 
     <div class="game-wrapper">
-        <!-- উপরে ডানে ব্যালেন্স -->
+        <!-- উপরে ডানে ব্যালেন্স বোর্ড -->
         <div class="top-balance">
-            💰 <span id="balance">4890</span>
+            💰 <span id="balance">4880</span>
         </div>
 
         <!-- চাকা ইউনিট -->
@@ -142,12 +149,12 @@
             </div>
         </div>
 
-        <!-- স্পিন বাটন (আপনার মার্ক করা জায়গায়) -->
+        <!-- স্পিন বাটন - আপনার লাল মার্ক করা জায়গায় -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="স্পিন">
         </div>
 
-        <!-- ব্যালেন্স কন্ট্রোল (একদম নিচে) -->
+        <!-- ব্যালেন্স কন্ট্রোল - একদম নিচে -->
         <div class="bottom-bet-box">
             <button class="btn-math" onclick="changeBet(-10)">-</button>
             <div class="current-bet" id="bet-val">10</div>
@@ -158,7 +165,7 @@
     <script>
         let rotation = 0;
         let isSpinning = false;
-        let balance = 4890;
+        let balance = 4880; // আপনার ছবি অনুযায়ী আপডেট করা
         let currentBet = 10;
 
         function changeBet(val) {
@@ -171,7 +178,7 @@
         function startSpin() {
             if (isSpinning) return;
             if (balance < currentBet) {
-                alert("ব্যালেন্স নেই!");
+                alert("ব্যালেন্স পর্যাপ্ত নয়!");
                 return;
             }
 
@@ -180,10 +187,10 @@
             document.getElementById('balance').innerText = balance;
 
             const wheel = document.getElementById('wheel-box');
-            const randomExtra = Math.floor(Math.random() * 360);
-            rotation += (3600 + randomExtra); 
+            const randomExtra = Math.floor(Math.random() * 360) + 1800; // ৫ বার ঘুরবে
+            rotation += randomExtra; 
             
-            wheel.style.transform = `scale(1.3) rotate(${rotation}deg)`;
+            wheel.style.transform = `scale(1.35) rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
@@ -193,5 +200,4 @@
 
 </body>
 </html>
-     
-
+          
