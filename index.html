@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel Final</title>
+    <title>Royal Lucky Wheel - Fixed</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%;
@@ -22,22 +22,22 @@
             align-items: center;
         }
 
-        /* ১. পয়েন্টার - চাকার ঠিক মাথায় */
+        /* ১. পয়েন্টার - চাকার ঠিক মাথায় পারফেক্ট পজিশন */
         .royal-pointer {
             position: absolute;
-            top: 2%; /* একটু নিচে নামাতে চাইলে ৫% দিন */
+            top: 2%; 
             left: 50%;
             transform: translateX(-50%) rotate(180deg);
-            width: 80px;
+            width: 75px; /* সাইজ কিছুটা কমানো হয়েছে */
             z-index: 30;
         }
 
-        /* ২. চাকা - একদম গোল রাখার জন্য Width ও Height সমান দেওয়া হয়েছে */
+        /* ২. চাকা - একদম গোল রাখার জন্য বর্গাকার সাইজ */
         .wheel-container {
             position: absolute;
-            top: 15%; 
-            width: 380px; /* আপনার ফোনের স্ক্রিন অনুযায়ী ৪৫০ থেকে কমিয়ে ৩৮০ করা হয়েছে */
-            height: 380px; /* এটি অবশ্যই Width এর সমান হতে হবে যাতে গোল থাকে */
+            top: 12%; /* পয়েন্টার থেকে সামান্য নিচে */
+            width: 360px; /* মোবাইল স্ক্রিনের জন্য আদর্শ সাইজ */
+            height: 360px; /* উচ্চতা ও প্রস্থ সমান হওয়ায় একদম গোল থাকবে */
             z-index: 10;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
         }
@@ -45,20 +45,20 @@
         .wheel-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ছবি যাতে চ্যাপ্টা না হয় */
+            object-fit: contain;
         }
 
-        /* ৩. স্পিন বাটন - চাকার অনেক নিচে টেবিলের ওপর */
+        /* ৩. স্পিন বাটন - একদম নিচে টেবিলের সামনের অংশে */
         .spin-btn {
             position: absolute;
-            bottom: 3%; /* ৮% থেকে কমিয়ে ৩% করা হয়েছে যাতে চাকার নিচে থাকে */
+            bottom: 2%; /* একদম নিচের কাছাকাছি নামিয়ে দেওয়া হয়েছে */
             cursor: pointer;
             z-index: 50;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 140px; /* বাটনটি কিছুটা ছোট করা হয়েছে */
+            width: 130px; /* বাটনটি সুন্দর দেখানোর জন্য সাইজ অ্যাডজাস্ট */
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
@@ -68,12 +68,15 @@
 <body>
 
     <div class="game-wrapper">
+        <!-- আপনার পাঠানো পয়েন্টার -->
         <img src="pointer.png" class="royal-pointer" alt="Pointer">
 
+        <!-- আপনার তৈরি করা চাকা -->
         <div id="wheel-box" class="wheel-container">
             <img src="wheel.png" alt="Wheel">
         </div>
 
+        <!-- আপনার আলাদা করা স্পিন বাটন -->
         <div class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
@@ -90,7 +93,11 @@
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
             wheel.style.transform = `rotate(${rotation}deg)`;
-            setTimeout(() => { spinning = false; }, 5000);
+            
+            setTimeout(() => { 
+                spinning = false; 
+                // এখানে পুরস্কার ঘোষণার জন্য এলার্ট দিতে পারেন
+            }, 5000);
         }
     </script>
 
