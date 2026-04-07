@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Pro Balance Edition</title>
+    <title>Royal Lucky Wheel - Layout Fixed</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -23,20 +23,20 @@
             align-items: center;
         }
 
-        /* উপরে ডানদিকে ব্যালেন্স বোর্ড */
+        /* উপরে ডানদিকে ব্যালেন্স বোর্ড (আপনার ছবির মতো) */
         .top-balance {
             position: absolute;
-            top: 20px;
+            top: 25px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px 15px;
-            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 20px;
+            border-radius: 30px;
             border: 2px solid #ffd700;
             color: #ffd700;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             z-index: 200;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
         }
 
         /* চাকা ও পয়েন্টার ইউনিট */
@@ -73,17 +73,18 @@
             width: 100%; height: 100%; object-fit: contain;
         }
 
-        /* স্পিন বাটন ও কন্ট্রোল সেকশন */
-        .controls-container {
+        /* নিচের কন্ট্রোল সেকশন (স্পিন বাটন + বেট বোর্ড) */
+        .controls-wrapper {
             position: absolute;
-            bottom: 4%;
+            bottom: 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            z-index: 110;
+            gap: 10px; /* স্পিন বাটন এবং প্লাস-মাইনাস বক্সের মধ্যবর্তী গ্যাপ */
+            z-index: 150;
         }
 
+        /* স্পিন বাটন (কন্ট্রোল বক্সের ঠিক উপরে) */
         .spin-btn {
             cursor: pointer;
             transition: transform 0.2s;
@@ -91,42 +92,47 @@
         }
 
         .spin-btn img {
-            width: 200px; 
+            width: 220px; /* আপনার ছবির সাথে মিলিয়ে কিছুটা বড় করা হয়েছে */
         }
 
         .spin-btn:active { transform: scale(0.9); }
 
-        /* বাড়ানো কমানোর বাটন (+/-) */
-        .bet-box {
+        /* ব্যালেন্স বাড়ানো কমানোর বক্স (ছবির লেআউট অনুযায়ী) */
+        .bet-control-box {
             display: flex;
             align-items: center;
-            gap: 20px;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 20px;
-            border-radius: 30px;
-            border: 1px solid #ffd700;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #ffd700;
+            border-radius: 40px;
+            padding: 5px 15px;
+            width: 220px; /* স্পিন বাটনের সাথে সামঞ্জস্যপূর্ণ */
+            height: 55px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .btn-math {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: #ffd700;
             border: none;
             border-radius: 50%;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #000;
             cursor: pointer;
-            box-shadow: 0 3px 0 #b8860b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.3);
         }
 
-        .btn-math:active { transform: translateY(2px); box-shadow: none; }
+        .btn-math:active { transform: scale(0.95); }
 
         .current-bet {
             color: #fff;
-            font-size: 22px;
+            font-size: 26px;
             font-weight: bold;
-            min-width: 50px;
             text-align: center;
         }
     </style>
@@ -136,9 +142,10 @@
     <div class="game-wrapper">
         <!-- উপরে ডানে ব্যালেন্স -->
         <div class="top-balance">
-            💰 <span id="balance">5000</span>
+            💰 <span id="balance">4900</span>
         </div>
 
+        <!-- চাকা ইউনিট -->
         <div class="wheel-unit">
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             <div id="wheel-box" class="wheel-container">
@@ -146,14 +153,15 @@
             </div>
         </div>
 
-        <div class="controls-container">
-            <!-- স্পিন বাটন -->
+        <!-- নিচের কন্ট্রোল সেটআপ -->
+        <div class="controls-wrapper">
+            <!-- স্পিন বাটন - এটি এখন প্লাস/মাইনাস বক্সের ঠিক ওপরে -->
             <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
-                <img src="spin-button.png" alt="SPIN">
+                <img src="spin-button.png" alt="স্পিন">
             </div>
 
-            <!-- ব্যালেন্স বাড়ানো কমানো -->
-            <div class="bet-box">
+            <!-- ব্যালেন্স বাড়ানোর/কমানোর প্যানেল -->
+            <div class="bet-control-box">
                 <button class="btn-math" onclick="changeBet(-10)">-</button>
                 <div class="current-bet" id="bet-val">10</div>
                 <button class="btn-math" onclick="changeBet(10)">+</button>
@@ -164,14 +172,13 @@
     <script>
         let rotation = 0;
         let isSpinning = false;
-        let balance = 5000;
+        let balance = 4900;
         let currentBet = 10;
 
-        // ব্যালেন্স বাড়ানো কমানোর ফাংশন
         function changeBet(val) {
             if (isSpinning) return;
             currentBet += val;
-            if (currentBet < 10) currentBet = 10; // সর্বনিম্ন ১০
+            if (currentBet < 10) currentBet = 10; 
             document.getElementById('bet-val').innerText = currentBet;
         }
 
@@ -179,13 +186,11 @@
             if (isSpinning) return;
 
             if (balance < currentBet) {
-                alert("পর্যাপ্ত ব্যালেন্স নেই!");
+                alert("ব্যালেন্স পর্যাপ্ত নয়!");
                 return;
             }
 
             isSpinning = true;
-            
-            // ব্যালেন্স কমানো
             balance -= currentBet;
             document.getElementById('balance').innerText = balance;
 
@@ -197,7 +202,6 @@
 
             setTimeout(() => {
                 isSpinning = false;
-                // স্পিন শেষে রেজাল্ট অনুযায়ী ব্যালেন্স যোগ করার লজিক এখানে দিতে পারেন
             }, 5000);
         }
     </script>
@@ -205,4 +209,5 @@
 </body>
 </html>
 
+        
             
