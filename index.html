@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel Pro</title>
+    <title>Royal Lucky Wheel Adjusted</title>
     <style>
-        /* ১. আপনার পুরো মূল ছবিটি ব্যাকগ্রাউন্ড হিসেবে থাকবে */
         body, html {
             margin: 0; padding: 0; height: 100%;
             display: flex; justify-content: center; align-items: center;
@@ -14,50 +13,53 @@
             overflow: hidden;
         }
 
-        .game-screen {
+        .game-wrapper {
             position: relative;
             width: 100vw;
             height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
 
-        /* ২. রাজকীয় পয়েন্টার পজিশন */
+        /* ১. পয়েন্টার পজিশন - স্ক্রিনের উপরের দিকে */
         .royal-pointer {
             position: absolute;
-            top: 15%; /* আপনার ছবির পয়েন্টারের জায়গা অনুযায়ী কম-বেশি করুন */
-            width: 100px;
-            z-index: 10;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+            top: 2%; /* একটু উপরে তুলে দেওয়া হয়েছে */
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            width: 80px; /* সাইজ কিছুটা ছোট করা হয়েছে */
+            z-index: 30;
         }
 
-        /* ৩. আপনার আলাদা করা চাকাটি এখানে বসবে */
+        /* ২. চাকা পজিশন - পয়েন্টারের ঠিক নিচে */
         .wheel-container {
             position: absolute;
-            top: 20%; /* পয়েন্টারের ঠিক নিচে */
-            width: 520px; /* আপনার চাকার সাইজ অনুযায়ী অ্যাডজাস্ট করুন */
-            height: 520px;
-            z-index: 5;
-            transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
+            top: 15%; /* চাকা এবং পয়েন্টারের মাঝে গ্যাপ কমানো হয়েছে */
+            width: 480px; /* আপনার স্ক্রিনশট অনুযায়ী সাইজ সেট করা */
+            height: 480px;
+            z-index: 10;
+            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
         .wheel-container img {
             width: 100%;
             height: 100%;
+            mix-blend-mode: multiply; /* সাদা ব্যাকগ্রাউন্ড কিছুটা হালকা করার ট্রিক */
         }
 
-        /* ৪. আপনার আলাদা করা স্পিন বাটনটি টেবিলের ওপর বসবে */
+        /* ৩. স্পিন বাটন পজিশন - টেবিলের সামনের দিকে */
         .spin-btn {
             position: absolute;
-            bottom: 8%; /* টেবিলের ওপরের পজিশন */
+            bottom: 5%; /* একদম নিচে টেবিলের ওপর */
             cursor: pointer;
-            z-index: 20;
+            z-index: 50;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 180px;
+            width: 160px;
+            mix-blend-mode: multiply; /* সাদা অংশ হালকা করার জন্য */
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
@@ -66,43 +68,41 @@
 </head>
 <body>
 
-    <div class="game-screen">
-        <!-- আলাদা করা পয়েন্টার -->
+    <div class="game-wrapper">
+        <!-- পয়েন্টার -->
         <img src="pointer.png" class="royal-pointer" alt="Pointer">
 
-        <!-- আলাদা করা চাকা (এটিই ঘুরবে) -->
+        <!-- চাকা -->
         <div id="wheel-box" class="wheel-container">
             <img src="wheel.png" alt="Wheel">
         </div>
 
-        <!-- আলাদা করা স্পিন বাটন -->
+        <!-- স্পিন বাটন -->
         <div class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
     </div>
 
     <script>
-        let currentRotation = 0;
-        let isSpinning = false;
+        let rotation = 0;
+        let spinning = false;
 
         function startSpin() {
-            if (isSpinning) return;
-            isSpinning = true;
+            if (spinning) return;
+            spinning = true;
 
             const wheel = document.getElementById('wheel-box');
-            const randomStop = Math.floor(Math.random() * 360);
-            currentRotation += (3600 + randomStop); 
+            const randomExtra = Math.floor(Math.random() * 360);
+            rotation += (3600 + randomExtra); 
 
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            wheel.style.transform = `rotate(${rotation}deg)`;
 
             setTimeout(() => {
-                isSpinning = false;
+                spinning = false;
+                alert("চাকা থেমেছে! অভিনন্দন!");
             }, 5000);
         }
     </script>
 
 </body>
 </html>
-
-                
- 
