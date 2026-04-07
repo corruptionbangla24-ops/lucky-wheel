@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel - Pro Adjusted</title>
+    <title>Royal Lucky Wheel Final Pro</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%;
@@ -22,48 +22,50 @@
             align-items: center;
         }
 
-        /* ১. পয়েন্টার - ব্যাকগ্রাউন্ডের পয়েন্টারের একদম ওপরে */
+        /* ১. পয়েন্টার - চাকার একদম মাথায় ব্যাকগ্রাউন্ডের পয়েন্টারের ওপরে */
         .royal-pointer {
             position: absolute;
-            top: 31.5%; /* ব্যাকগ্রাউন্ড অনুযায়ী সুনির্দিষ্ট পজিশন */
-            left: 50%;
+            top: 25.5%; /* ব্যাকগ্রাউন্ডের পয়েন্টারের পজিশন অনুযায়ী */
+            left: 50.3%; /* সামান্য ডানে সরানো হয়েছে সেন্টারিং ঠিক করতে */
             transform: translateX(-50%) rotate(180deg);
-            width: 85px;
+            width: 90px;
             z-index: 100;
         }
 
-        /* ২. চাকা - বড় করা হয়েছে এবং একদম গোল থাকবে */
+        /* ২. চাকা - অনেক বড় করা হয়েছে এবং একদম গোল থাকবে */
         .wheel-container {
             position: absolute;
-            top: 34.5%; /* ব্যাকগ্রাউন্ডের চাকার ওপর বসানোর জন্য */
-            width: 82vw; /* চাকাটি বড় করা হয়েছে */
-            max-width: 440px; 
-            aspect-ratio: 1 / 1; /* ডিম হওয়া রোধ করবে */
+            top: 30.5%; /* ব্যাকগ্রাউন্ডের গোল ফ্রেমের ঠিক মাঝখানে */
+            width: 95vw; /* চাকাটি স্ক্রিনের চওড়া অনুযায়ী অনেক বড় করা হয়েছে */
+            max-width: 520px; 
+            aspect-ratio: 1 / 1; /* এটি চাকাটিকে কোনোভাবেই ডিম হতে দেবে না */
             z-index: 50;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .wheel-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: contain; /* ছবি চ্যাপ্টা হওয়া রোধ করবে */
             border-radius: 50%;
-            mix-blend-mode: multiply; /* পেছনের সাদা ভাব কমানোর ট্রিক */
+            mix-blend-mode: multiply; /* সাদা অংশ ব্যাকগ্রাউন্ডের সাথে মিশিয়ে দেবে */
         }
 
-        /* ৩. স্পিন বাটন - ব্যাকগ্রাউন্ডের বাটনটিকে পুরোপুরি ঢেকে দেবে */
+        /* ৩. স্পিন বাটন - নিচের বাটনটিকে পুরোপুরি ঢেকে দেওয়ার জন্য বড় করা হয়েছে */
         .spin-btn {
             position: absolute;
-            bottom: 12.5%; /* ব্যাকগ্রাউন্ডের বাটনের পজিশন অনুযায়ী */
+            bottom: 11%; /* ব্যাকগ্রাউন্ডের বাটনের একদম ওপরে */
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 195px; /* বাটনটি বড় করে ব্যাকগ্রাউন্ডেরটি ঢেকে দেওয়া হয়েছে */
+            width: 215px; /* বাটনটি বড় করে নিচেরটি ঢেকে দেওয়া হয়েছে */
             mix-blend-mode: multiply;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
         .spin-btn:active { transform: scale(0.9); }
