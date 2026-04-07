@@ -3,22 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Big Screen Edition</title>
+    <title>Royal Lucky Wheel - Maximum Size</title>
     <style>
         body, html {
-            margin: 0; 
-            padding: 0; 
-            height: 100%;
-            width: 100%;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            display: flex; justify-content: center; align-items: center;
             background: #000 url('background.png') no-repeat center center fixed;
             background-size: cover;
             overflow: hidden;
         }
 
-        /* পুরো স্ক্রিন কন্ট্রোল করার মেইন র‍্যাপার */
         .game-wrapper {
             position: relative;
             width: 100vw;
@@ -28,31 +22,33 @@
             align-items: center;
         }
 
-        /* চাকা ও পয়েন্টার ইউনিট - ৯৫% চওড়া এবং ওপরের দিকে */
+        /* চাকা ও পয়েন্টার ইউনিট - সর্বোচ্চ বড় করার জন্য */
         .wheel-unit {
             position: absolute;
-            top: 12%; /* স্ক্রিনশট অনুযায়ী ওপরের দিকে পজিশন */
+            top: 5%; /* স্ক্রিনশট অনুযায়ী আরও উপরে তোলা হয়েছে */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 95vw; /* চাকাটি মোবাইলের দুই ধার ঘেঁষে বড় দেখাবে */
-            max-width: 600px; /* পিসি বা বড় স্ক্রিনে অতিরিক্ত বড় হওয়া আটকাবে */
+            width: 115vw; /* মোবাইল স্ক্রিনের চেয়েও ১৫% বড় রাখা হয়েছে যাতে একদম ধার ঘেঁষে থাকে */
+            max-width: 750px; /* পিসি স্ক্রিনের জন্য লিমিট */
         }
 
         /* পয়েন্টার এডজাস্টমেন্ট */
         .royal-pointer {
-            width: 75px; 
-            margin-bottom: -18px; /* পয়েন্টার চাকার ওপর পারফেক্টলি বসে থাকবে */
+            width: 85px; /* চাকা বড় হওয়ায় পয়েন্টারও বড় করা হয়েছে */
+            margin-bottom: -25px; 
             z-index: 100;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
         }
 
-        /* চাকা কন্টেইনার - এটি গোল থাকবে */
+        /* চাকা কন্টেইনার */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
+            /* চাকাটি যেন প্রপারলি বড় দেখায় */
+            transform: scale(1.1); 
         }
 
         .wheel-container img {
@@ -61,10 +57,10 @@
             object-fit: contain;
         }
 
-        /* স্পিন বাটন - আপনার ছবির মতো নিচে পজিশন */
+        /* স্পিন বাটন - একদম নিচের দিকে */
         .spin-btn {
             position: absolute;
-            bottom: 10%; /* নিচ থেকে ১০% ওপরে */
+            bottom: 5%; 
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
@@ -72,18 +68,15 @@
         }
 
         .spin-btn img {
-            width: 170px; /* বাটনটি সুন্দর এবং স্পষ্ট দেখাবে */
+            width: 180px; /* বাটনটি বড় এবং স্পষ্ট */
         }
 
-        .spin-btn:active { 
-            transform: scale(0.9); 
-        }
+        .spin-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
     <div class="game-wrapper">
-        <!-- চাকা এবং পয়েন্টার ইউনিট -->
         <div class="wheel-unit">
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             <div id="wheel-box" class="wheel-container">
@@ -91,7 +84,6 @@
             </div>
         </div>
 
-        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
@@ -103,17 +95,12 @@
 
         function startSpin() {
             if (isSpinning) return;
-            
             isSpinning = true;
             const wheel = document.getElementById('wheel-box');
-            
-            // কমপক্ষে ১০ বার ঘুরবে + রেন্ডম ডিগ্রি
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
-            
-            wheel.style.transform = `rotate(${rotation}deg)`;
+            wheel.style.transform = `scale(1.1) rotate(${rotation}deg)`; /* Scale বজায় রেখে ঘুরবে */
 
-            // ৫ সেকেন্ড পর স্পিন শেষ
             setTimeout(() => {
                 isSpinning = false;
             }, 5000);
@@ -122,3 +109,4 @@
 
 </body>
 </html>
+
