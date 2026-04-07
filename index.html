@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Lucky Wheel - Max Size</title>
+    <title>Royal Lucky Wheel - Grand Size</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%;
@@ -22,27 +22,25 @@
             align-items: center;
         }
 
-        /* ১. পয়েন্টার - অনেক উপরে তোলা হয়েছে */
+        /* ১. পয়েন্টার - আপনার ছবির একদম মাথায় স্থির থাকবে */
         .royal-pointer {
             position: absolute;
-            top: 18%; /* আপনার মন্দিরের সিঁড়ির ঠিক ওপরের জায়গায় */
-            left: 50%;
+            top: 23%; /* আপনার ছবির পয়েন্টারের জায়গা অনুযায়ী */
+            left: 50.2%; 
             transform: translateX(-50%) rotate(180deg);
             width: 80px; 
             z-index: 100;
         }
 
-        /* ২. চাকা - বিশাল বড় করা হয়েছে (Fixed Pixel Size) */
+        /* ২. চাকা - বিশাল বড় করা হয়েছে (Maximized) */
         .wheel-container {
             position: absolute;
-            top: 25.5%; /* ব্যাকগ্রাউন্ডের গোল ফ্রেমের পজিশন অনুযায়ী */
-            width: 375px; /* এটি বাড়িয়ে ৪০০ করতে পারেন যদি আরও বড় চান */
-            height: 375px; /* একদম গোল রাখার জন্য সমান মাপ */
+            top: 29.5%; /* ফ্রেমের পজিশন অনুযায়ী */
+            width: 96vw; /* স্ক্রিনের প্রায় পুরো চওড়া জুড়ে থাকবে */
+            max-width: 500px; 
+            aspect-ratio: 1 / 1; /* চাকাটি একদম গোল রাখার জন্য */
             z-index: 50;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .wheel-container img {
@@ -50,22 +48,22 @@
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
-            /* সাদা ব্যাকগ্রাউন্ড হালকা করার জন্য */
-            mix-blend-mode: multiply; 
+            mix-blend-mode: multiply; /* সাদা ভাব দূর করতে */
         }
 
-        /* ৩. স্পিন বাটন - নিচের বাটনটি নিখুঁতভাবে ঢাকার জন্য */
+        /* ৩. স্পিন বাটন - একদম নিচে পানির ওপর নামিয়ে দেওয়া হয়েছে */
         .spin-btn {
             position: absolute;
-            bottom: 12%; 
+            bottom: 3%; /* ৮% থেকে কমিয়ে ৩% করা হয়েছে যাতে নিচে থাকে */
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
         }
 
         .spin-btn img {
-            width: 210px; /* বাটনটি বড় করা হয়েছে */
+            width: 190px; /* বাটনের সাইজ অ্যাডজাস্ট */
             mix-blend-mode: multiply;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
         }
 
         .spin-btn:active { transform: scale(0.9); }
