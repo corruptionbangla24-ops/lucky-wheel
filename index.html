@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Long Hanging Pointer</title>
+    <title>Royal Lucky Wheel - Screen Match</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -25,35 +25,34 @@
         /* চাকা ও পয়েন্টার ইউনিট */
         .wheel-unit {
             position: absolute;
-            top: 2%; /* একদম ওপরের ফ্রেম থেকে শুরু হবে */
+            top: 4%; /* আপনার ইমেজের চাঁদের পজিশন অনুযায়ী */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 150vw; /* চাকাটিকে অতিকায় বড় করার জন্য */
-            max-width: 1000px;
+            width: 140vw; /* স্ক্রিনশটের মতো চাকাটিকে আরও বড় করা হয়েছে */
+            max-width: 950px;
         }
 
-        /* লম্বা পয়েন্টার - যা ওপর থেকে ঝুলে চাকার গায়ে ঠেকে থাকবে */
+        /* পয়েন্টার - এটি এখন চাকার গোল্ডেন বর্ডারের ভেতরে থাকবে */
         .royal-pointer {
-            width: 60px;  /* পয়েন্টারটি একটু চিকন রাখলে লম্বা দেখাবে */
-            height: 200px; /* লম্বায় অনেক বাড়ানো হয়েছে (আপনার চাহিদা মতো) */
-            object-fit: contain;
-            margin-bottom: -45px; /* এটি পয়েন্টারের মাথাকে চাকার গোল্ডেন বর্ডারের ওপর রাখবে */
-            margin-left: 110px;   /* চাঁদের পাশ থেকে ঝুলে থাকার জন্য ডানে সরানো হলো */
+            width: 85px; 
+            /* পয়েন্টারকে চাকার গায়ে লাগানোর জন্য margin-bottom আরও বাড়ানো হয়েছে */
+            margin-bottom: -160px; 
+            margin-left: 90px;    /* চাঁদের পাশ দিয়ে হেলে থাকার পজিশন */
             z-index: 100;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.9));
-            transform: rotate(25deg); /* ডানে হেলানো পজিশন */
-            transform-origin: top center; /* মনে হবে ওপরে আটকানো আছে */
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+            transform: rotate(28deg); /* আপনার ছবিতে যেমনটা আছে সেই অনুযায়ী বাঁকানো */
+            transform-origin: bottom center;
             position: relative;
         }
 
-        /* মেইন চাকা - আপনার স্ক্রিনশটের মতো ফুল স্ক্রিন */
+        /* মেইন চাকা - অতিকায় বড় সাইজ */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
-            transform: scale(1.45); /* চাকাকে সর্বোচ্চ জুম করা হয়েছে */
+            transform: scale(1.4); /* চাকাকে সর্বোচ্চ জুম করা হয়েছে */
         }
 
         .wheel-container img {
@@ -62,24 +61,28 @@
             object-fit: contain;
         }
 
-        /* স্পিন বাটন - নিচে সুন্দর পজিশন */
+        /* স্পিন বাটন - পজিশন নিচে */
         .spin-btn {
             position: absolute;
-            bottom: 4%; 
+            bottom: 3%; 
             cursor: pointer;
             z-index: 110;
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .spin-btn img {
-            width: 200px; 
+            width: 220px; 
         }
+
+        .spin-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
     <div class="game-wrapper">
         <div class="wheel-unit">
-            <!-- লম্বা পয়েন্টার যা ওপরে আটকানো মনে হবে এবং চাকার গায়ে ঠেকে থাকবে -->
+            <!-- পয়েন্টার যা এখন চাকার সাথে একদম লেগে থাকবে -->
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
             
             <div id="wheel-box" class="wheel-container">
@@ -87,6 +90,7 @@
             </div>
         </div>
 
+        <!-- স্পিন বাটন -->
         <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
             <img src="spin-button.png" alt="SPIN">
         </div>
@@ -100,9 +104,12 @@
             if (isSpinning) return;
             isSpinning = true;
             const wheel = document.getElementById('wheel-box');
+            
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
-            wheel.style.transform = `scale(1.45) rotate(${rotation}deg)`;
+            
+            // scale(1.4) বজায় রেখে চাকা ঘুরবে
+            wheel.style.transform = `scale(1.4) rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
