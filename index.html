@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Mobile Optimized</title>
+    <title>Royal Lucky Wheel - Big Screen Edition</title>
     <style>
         body, html {
             margin: 0; 
@@ -15,7 +15,7 @@
             align-items: center;
             background: #000 url('background.png') no-repeat center center fixed;
             background-size: cover;
-            overflow: hidden; /* স্ক্রিন যেন ডানে-বামে না নড়ে */
+            overflow: hidden;
         }
 
         /* পুরো স্ক্রিন কন্ট্রোল করার মেইন র‍্যাপার */
@@ -28,29 +28,29 @@
             align-items: center;
         }
 
-        /* চাকা ও পয়েন্টারের মূল অংশ - ওপরের দিকে (Top: 10%) */
+        /* চাকা ও পয়েন্টার ইউনিট - ৯৫% চওড়া এবং ওপরের দিকে */
         .wheel-unit {
             position: absolute;
-            top: 10%; 
+            top: 12%; /* স্ক্রিনশট অনুযায়ী ওপরের দিকে পজিশন */
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 85vw; /* মোবাইলে স্ক্রিনের ৮৫% জায়গা জুড়ে বড় দেখাবে */
-            max-width: 500px; /* পিসি বা বড় স্ক্রিনে ৫০০০ পিক্সেলের বেশি হবে না */
+            width: 95vw; /* চাকাটি মোবাইলের দুই ধার ঘেঁষে বড় দেখাবে */
+            max-width: 600px; /* পিসি বা বড় স্ক্রিনে অতিরিক্ত বড় হওয়া আটকাবে */
         }
 
-        /* পয়েন্টার - চাকার সাথে একদম পারফেক্টলি সেট করা */
+        /* পয়েন্টার এডজাস্টমেন্ট */
         .royal-pointer {
-            width: 65px; 
-            margin-bottom: -15px; /* পয়েন্টারটিকে চাকার কিছুটা ভেতরে ঢুকিয়ে দেয়া হয়েছে */
+            width: 75px; 
+            margin-bottom: -18px; /* পয়েন্টার চাকার ওপর পারফেক্টলি বসে থাকবে */
             z-index: 100;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
         }
 
-        /* চাকা - এটি গোল থাকবে এবং ডিম্বাকৃতি হবে না */
+        /* চাকা কন্টেইনার - এটি গোল থাকবে */
         .wheel-container {
             width: 100%;
-            aspect-ratio: 1 / 1; /* চাকা সবসময় গোল রাখবে */
+            aspect-ratio: 1 / 1;
             transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             z-index: 50;
         }
@@ -59,21 +59,20 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            /* mix-blend-mode: multiply; (আপনার ইমেজে সাদা ব্যাকগ্রাউন্ড থাকলে এটি অন রাখুন) */
         }
 
-        /* স্পিন বাটন - স্ক্রিনের নিচের দিকে পজিশন */
+        /* স্পিন বাটন - আপনার ছবির মতো নিচে পজিশন */
         .spin-btn {
             position: absolute;
-            bottom: 8%; /* নিচে থেকে ৮% ওপরে */
+            bottom: 10%; /* নিচ থেকে ১০% ওপরে */
             cursor: pointer;
             z-index: 110;
             transition: transform 0.2s;
-            -webkit-tap-highlight-color: transparent; /* মোবাইলে ক্লিক করলে নীল বক্স আসবে না */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .spin-btn img {
-            width: 150px; /* মোবাইলের জন্য স্ট্যান্ডার্ড সাইজ */
+            width: 170px; /* বাটনটি সুন্দর এবং স্পষ্ট দেখাবে */
         }
 
         .spin-btn:active { 
@@ -103,22 +102,20 @@
         let isSpinning = false;
 
         function startSpin() {
-            // যদি চাকা আগে থেকেই ঘুরতে থাকে তবে নতুন করে ক্লিক কাজ করবে না
             if (isSpinning) return;
             
             isSpinning = true;
             const wheel = document.getElementById('wheel-box');
             
-            // রেন্ডমলি ঘুরানোর লজিক (কমপক্ষে ১০ বার ঘুরবে + রেন্ডম ডিগ্রি)
+            // কমপক্ষে ১০ বার ঘুরবে + রেন্ডম ডিগ্রি
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
             
             wheel.style.transform = `rotate(${rotation}deg)`;
 
-            // ৫ সেকেন্ড পর স্পিন শেষ হলে আবার ক্লিক করার সুযোগ পাবে
+            // ৫ সেকেন্ড পর স্পিন শেষ
             setTimeout(() => {
                 isSpinning = false;
-                // এখানে আপনি চাইলে রেজাল্ট দেখানোর পপ-আপ অ্যাড করতে পারেন
             }, 5000);
         }
     </script>
