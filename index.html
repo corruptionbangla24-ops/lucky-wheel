@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal Lucky Wheel - Pointer Fixed</title>
+    <title>Royal Lucky Wheel - Pro Balance Edition</title>
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -11,6 +11,7 @@
             background: #000 url('background.png') no-repeat center center fixed;
             background-size: cover;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
 
         .game-wrapper {
@@ -22,23 +23,37 @@
             align-items: center;
         }
 
+        /* উপরে ডানদিকে ব্যালেন্স বোর্ড */
+        .top-balance {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 200;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
         /* চাকা ও পয়েন্টার ইউনিট */
         .wheel-unit {
             position: absolute;
-            top: 5%; /* চাঁদের পজিশন অনুযায়ী */
+            top: 5%; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 135vw; /* অতিকায় বড় চাকা */
+            width: 135vw; 
             max-width: 900px;
         }
 
-        /* পয়েন্টার - এটি এখন চাকার গায়ের সাথে একদম লেগে থাকবে */
         .royal-pointer {
             width: 95px; 
-            /* পয়েন্টারকে নিচে নামিয়ে চাকার একদম ভেতরে লাগানোর জন্য ভ্যালু বাড়ানো হয়েছে */
             margin-bottom: -95px; 
-            margin-left: 75px;    /* চাঁদের পাশ দিয়ে হেলে থাকার জন্য */
+            margin-left: 75px;    
             z-index: 100;
             filter: drop-shadow(0 5px 20px rgba(0,0,0,0.9));
             transform: rotate(22deg); 
@@ -46,7 +61,6 @@
             position: relative;
         }
 
-        /* মেইন চাকা */
         .wheel-container {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -56,17 +70,22 @@
         }
 
         .wheel-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: 100%; height: 100%; object-fit: contain;
         }
 
-        /* স্পিন বাটন */
-        .spin-btn {
+        /* স্পিন বাটন ও কন্ট্রোল সেকশন */
+        .controls-container {
             position: absolute;
-            bottom: 4%; 
-            cursor: pointer;
+            bottom: 4%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
             z-index: 110;
+        }
+
+        .spin-btn {
+            cursor: pointer;
             transition: transform 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
@@ -76,35 +95,101 @@
         }
 
         .spin-btn:active { transform: scale(0.9); }
+
+        /* বাড়ানো কমানোর বাটন (+/-) */
+        .bet-box {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 20px;
+            border-radius: 30px;
+            border: 1px solid #ffd700;
+        }
+
+        .btn-math {
+            width: 40px;
+            height: 40px;
+            background: #ffd700;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b8860b;
+        }
+
+        .btn-math:active { transform: translateY(2px); box-shadow: none; }
+
+        .current-bet {
+            color: #fff;
+            font-size: 22px;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
     <div class="game-wrapper">
+        <!-- উপরে ডানে ব্যালেন্স -->
+        <div class="top-balance">
+            💰 <span id="balance">5000</span>
+        </div>
+
         <div class="wheel-unit">
-            <!-- পয়েন্টার যা চাকার গায়ে লেগে আছে -->
             <img src="pointer.png" class="royal-pointer" alt="Pointer">
-            
             <div id="wheel-box" class="wheel-container">
                 <img src="wheel.png" alt="Wheel">
             </div>
         </div>
 
-        <!-- স্পিন বাটন -->
-        <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
-            <img src="spin-button.png" alt="SPIN">
+        <div class="controls-container">
+            <!-- স্পিন বাটন -->
+            <div id="spin-trigger" class="spin-btn" onclick="startSpin()">
+                <img src="spin-button.png" alt="SPIN">
+            </div>
+
+            <!-- ব্যালেন্স বাড়ানো কমানো -->
+            <div class="bet-box">
+                <button class="btn-math" onclick="changeBet(-10)">-</button>
+                <div class="current-bet" id="bet-val">10</div>
+                <button class="btn-math" onclick="changeBet(10)">+</button>
+            </div>
         </div>
     </div>
 
     <script>
         let rotation = 0;
         let isSpinning = false;
+        let balance = 5000;
+        let currentBet = 10;
+
+        // ব্যালেন্স বাড়ানো কমানোর ফাংশন
+        function changeBet(val) {
+            if (isSpinning) return;
+            currentBet += val;
+            if (currentBet < 10) currentBet = 10; // সর্বনিম্ন ১০
+            document.getElementById('bet-val').innerText = currentBet;
+        }
 
         function startSpin() {
             if (isSpinning) return;
+
+            if (balance < currentBet) {
+                alert("পর্যাপ্ত ব্যালেন্স নেই!");
+                return;
+            }
+
             isSpinning = true;
-            const wheel = document.getElementById('wheel-box');
             
+            // ব্যালেন্স কমানো
+            balance -= currentBet;
+            document.getElementById('balance').innerText = balance;
+
+            const wheel = document.getElementById('wheel-box');
             const randomExtra = Math.floor(Math.random() * 360);
             rotation += (3600 + randomExtra); 
             
@@ -112,9 +197,12 @@
 
             setTimeout(() => {
                 isSpinning = false;
+                // স্পিন শেষে রেজাল্ট অনুযায়ী ব্যালেন্স যোগ করার লজিক এখানে দিতে পারেন
             }, 5000);
         }
     </script>
 
 </body>
 </html>
+
+            
